@@ -1,0 +1,50 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 314.073 156.84" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="ALL LINES">
+<path id="projection 1" d="M115.537 74.2341L142.853 57.4051L169.653 51.1162L198 37.1884L226.347 24.5727L255.209 14.8346L279.417 10.2455L295.925 3.11455L307.541 1.11596" stroke="var(--stroke-0, #6A0200)" stroke-width="0.558151" stroke-linecap="round" stroke-dasharray="0.56 1.67"/>
+<path id="projection 2" d="M115.537 74.2341L141.086 69.2976L166.154 65.7943L192.668 54.3033L219.181 49.526L246.177 45.2265L272.691 46.2076L284.26 45.0929L307.541 42.9776" stroke="var(--stroke-0, #EE00FF)" stroke-width="0.558151" stroke-linecap="round" stroke-dasharray="0.56 2.23"/>
+<path id="projection 3" d="M115.537 74.0401L142.924 75.7084L171.156 72.0015L199.576 73.7236L227.997 75.3381L256.934 76.7912L283.993 85.5785L296.395 85.9553L308.099 85.9549" stroke="var(--stroke-0, #0026FF)" stroke-width="0.558151" stroke-linecap="round" stroke-dasharray="1.12 1.67"/>
+<g id="prior history">
+<path id="Vector 2" d="M1.31133 99.8862L16.9476 95.4924L32.2893 92.3742L48.5159 87.8387L64.7426 83.5866L81.2642 79.7598L97.4908 74.9408" stroke="var(--stroke-0, black)" stroke-width="0.558151"/>
+<circle id="Ellipse 1" cx="1.1163" cy="100.21" r="1.1163" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 2" cx="17.1777" cy="95.4032" r="1.1163" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 3" cx="33.239" cy="92.1644" r="1.1163" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 4" cx="49.3003" cy="87.3959" r="1.1163" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 5" cx="65.3616" cy="83.3814" r="1.1163" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 6" cx="81.423" cy="79.8709" r="1.1163" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 7" cx="97.4843" cy="74.7053" r="1.1163" fill="var(--fill-0, #191B1E)"/>
+</g>
+<path id="Rectangle 11" d="M123.91 67.8154L125.863 65.8618L127.817 67.8154L125.863 69.7689L123.91 67.8154Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 14" d="M142.329 56.9314L144.003 55.257L145.677 56.9314L144.003 58.6059L142.329 56.9314Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 17" d="M160.189 52.1871L162.143 50.2336L164.096 52.1871L162.143 54.1407L160.189 52.1871Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 20" d="M178.608 45.7684L180.283 44.0939L181.957 45.7684L180.283 47.4428L178.608 45.7684Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 23" d="M196.469 37.3961L198.144 35.7217L199.818 37.3961L198.144 39.0706L196.469 37.3961Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 26" d="M214.888 29.0239L216.563 27.3494L218.237 29.0239L216.563 30.6983L214.888 29.0239Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 29" d="M233.307 21.2097L234.982 19.5353L236.656 21.2097L234.982 22.8842L233.307 21.2097Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 32" d="M251.168 15.9073L253.122 13.9538L255.075 15.9073L253.122 17.8608L251.168 15.9073Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 35" d="M269.587 12.0002L271.54 10.0467L273.494 12.0002L271.54 13.9538L269.587 12.0002Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 38" d="M287.448 6.13966L289.122 4.46521L290.797 6.13966L289.122 7.81412L287.448 6.13966Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 41" d="M305.309 1.67445L306.983 0L308.658 1.67445L306.983 3.34891L305.309 1.67445Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 12" d="M123.91 72.2806L125.863 70.327L127.817 72.2806L125.863 74.2341L123.91 72.2806Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 15" d="M142.329 68.9317L144.282 66.9781L146.236 68.9317L144.282 70.8852L142.329 68.9317Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 18" d="M160.189 65.8618L161.864 64.1874L163.538 65.8618L161.864 67.5363L160.189 65.8618Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 21" d="M178.608 59.7222L180.283 58.0477L181.957 59.7222L180.283 61.3966L178.608 59.7222Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 24" d="M196.469 53.0243L198.144 51.3499L199.818 53.0243L198.144 54.6988L196.469 53.0243Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 27" d="M214.888 49.9545L216.842 48.001L218.795 49.9545L216.842 51.908L214.888 49.9545Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 30" d="M233.307 47.1638L235.261 45.2102L237.214 47.1638L235.261 49.1173L233.307 47.1638Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 33" d="M251.168 45.4893L253.122 43.5358L255.075 45.4893L253.122 47.4428L251.168 45.4893Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 36" d="M269.587 46.0475L271.54 44.0939L273.494 46.0475L271.54 48.001L269.587 46.0475Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 39" d="M287.448 44.6521L289.122 42.9776L290.797 44.6521L289.122 46.3265L287.448 44.6521Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 42" d="M305.309 42.6986L307.262 40.745L309.216 42.6986L307.262 44.6521L305.309 42.6986Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 13" d="M123.91 74.5132L125.863 72.5596L127.817 74.5132L125.863 76.4667L123.91 74.5132Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 16" d="M142.329 75.6295L144.282 73.6759L146.236 75.6295L144.282 77.583L142.329 75.6295Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 19" d="M160.189 73.955L162.143 72.0015L164.096 73.955L162.143 75.9085L160.189 73.955Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 22" d="M178.608 73.3969L180.562 71.4433L182.515 73.3969L180.562 75.3504L178.608 73.3969Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 25" d="M196.469 73.3969L198.423 71.4433L200.376 73.3969L198.423 75.3504L196.469 73.3969Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 28" d="M214.888 75.3504L216.563 73.6759L218.237 75.3504L216.563 77.0248L214.888 75.3504Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 31" d="M233.307 75.6295L235.261 73.6759L237.214 75.6295L235.261 77.583L233.307 75.6295Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 34" d="M251.168 76.4667L252.842 74.7922L254.517 76.4667L252.842 78.1411L251.168 76.4667Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 37" d="M269.587 81.211L271.54 79.2575L273.494 81.211L271.54 83.1645L269.587 81.211Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 40" d="M287.448 85.6762L289.401 83.7227L291.355 85.6762L289.401 87.6297L287.448 85.6762Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 43" d="M305.309 85.6762L307.262 83.7227L309.216 85.6762L307.262 87.6297L305.309 85.6762Z" fill="var(--fill-0, #0026FF)"/>
+</g>
+</svg>

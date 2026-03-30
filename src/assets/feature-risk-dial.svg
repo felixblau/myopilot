@@ -1,0 +1,7 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 80.769 73.6811" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="dial">
+<path id="width: 31.32" d="M67.2378 0.810753L60.8399 1.05002L61.0792 7.44787L67.4771 7.2086L67.2378 0.810753ZM64.1585 4.12931L63.5837 3.59596L2.69343 69.2176L3.26822 69.7509L3.84301 70.2842L64.7333 4.66266L64.1585 4.12931Z" fill="var(--stroke-0, #191B1E)"/>
+<path id="width: 31.32_2" d="M80.5948 23.7916L3.26822 69.7509" stroke="var(--stroke-0, #191B1E)" stroke-width="0.682233" stroke-dasharray="1.36 1.36"/>
+<circle id="circle" cx="3.26855" cy="69.7506" r="2.71424" fill="var(--fill-0, #191B1E)"/>
+</g>
+</svg>
