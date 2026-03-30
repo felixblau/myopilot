@@ -1,37 +1,40 @@
 export default function Testimonials() {
   const testimonials = [
     {
-      quote: "It's like having a clinical assistant who knows every paper I've read.",
-      author: "Doctor Name,",
-      role: "Clinic Name"
+      quote: "\u201cIt\u2019s like having a clinical assistant who knows every paper I\u2019ve read.\u201d",
+      authorLine1: "Doctor Name,",
+      authorLine2: "Clinic Name",
+      bg: "bg-[#2a4c7c]"
     },
     {
-      quote: "I was able to get the severity of my child's myopia with the easy, simple charts Dr. Yeung provided me",
-      author: "Patient",
-      role: ""
+      quote: "\u201cI was able to get the severity of my child\u2019s myopia with the easy, simple charts Dr. Yeung provided me\u201d",
+      authorLine1: "Patient",
+      authorLine2: "",
+      bg: "bg-[#00aad4]"
     },
     {
-      quote: "I finally feel confident explaining axial length to parents.",
-      author: "Doctor Name,",
-      role: "Clinic Name"
+      quote: "\u201cI finally feel confident explaining axial length to parents.\u201d",
+      authorLine1: "Doctor Name,",
+      authorLine2: "Clinic Name",
+      bg: "bg-[#2a4c7c]"
     }
   ];
 
   return (
-    <section className="bg-white py-16">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-20">
-        <div className="flex flex-col md:flex-row gap-6">
+    <section className="bg-white">
+      <div className="max-w-[1440px] mx-auto px-4 md:px-[80px] py-10 md:py-[64px] flex flex-col items-center gap-[40px]">
+        <div className="flex flex-col md:flex-row gap-[24px] items-center w-full">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="flex-1 rounded-xl bg-gradient-to-br from-slate-50 to-blue-50 p-10 min-h-[316px] flex flex-col justify-between"
+              className={`flex-1 min-w-0 h-auto md:h-[316px] rounded-[13px] overflow-clip p-[40px] flex flex-col gap-[8px] items-start ${testimonial.bg}`}
             >
-              <p className="font-heading font-semibold text-2xl text-text-primary leading-[1.5]">
+              <p className="flex-1 font-['Inter'] font-semibold text-[24px] leading-[1.5] text-white">
                 {testimonial.quote}
               </p>
-              <div className="font-source-sans text-base text-text-secondary">
-                <div>{testimonial.author}</div>
-                {testimonial.role && <div>{testimonial.role}</div>}
+              <div className="font-['Source_Sans_3'] font-normal text-[16px] text-white leading-[1.25]">
+                <p>{testimonial.authorLine1}</p>
+                {testimonial.authorLine2 && <p>{testimonial.authorLine2}</p>}
               </div>
             </div>
           ))}

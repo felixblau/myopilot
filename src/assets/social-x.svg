@@ -1,1 +1,10 @@
-Error getting image
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 18.0054 18.0054" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="image" clip-path="url(#clip0_1677_5087)">
+<path id="Vector" d="M10.7172 7.6313L17.4213 0H15.8338L10.01 6.625L5.36162 0H0L7.03012 10.019L0 18.0204H1.58848L7.73433 11.0233L12.6438 18.0204H18.0054M2.16165 1.17235H4.60139L15.8318 16.9051H13.392" fill="var(--fill-0, #282B2B)"/>
+</g>
+<defs>
+<clipPath id="clip0_1677_5087">
+<rect width="18.0054" height="18.0054" fill="white"/>
+</clipPath>
+</defs>
+</svg>
