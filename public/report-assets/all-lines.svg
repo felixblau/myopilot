@@ -1,0 +1,42 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 561 279.496" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="ALL LINES">
+<path id="projection 1" d="M205.297 133L254.236 102.849L302.253 91.5813L353.04 66.6278L403.827 44.0252L455.537 26.5782L498.909 18.3562L528.485 5.58011L549.297 1.99938" stroke="var(--stroke-0, #6A0200)" stroke-linecap="round" stroke-dasharray="1 3"/>
+<path id="projection 3" d="M205.297 132.652L254.364 135.641L304.945 129L355.864 132.085L406.783 134.978L458.628 137.581L507.108 153.325L529.327 154L550.297 153.999" stroke="var(--stroke-0, #0026FF)" stroke-linecap="round" stroke-dasharray="2 3"/>
+<g id="prior history">
+<path id="Vector 2" d="M19.6464 181.959L47.6609 174.087L75.1475 168.5L104.22 160.374L133.292 152.756L162.892 145.9L191.964 137.266" stroke="var(--stroke-0, black)"/>
+<circle id="Ellipse 1" cx="19.297" cy="182.539" r="2" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 2" cx="48.073" cy="173.927" r="2" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 3" cx="76.849" cy="168.125" r="2" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 4" cx="105.625" cy="159.581" r="2" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 5" cx="134.401" cy="152.389" r="2" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 6" cx="163.177" cy="146.099" r="2" fill="var(--fill-0, #191B1E)"/>
+<circle id="Ellipse 7" cx="191.953" cy="136.844" r="2" fill="var(--fill-0, #191B1E)"/>
+</g>
+<path id="Rectangle 11" d="M220.297 121.5L223.797 118L227.297 121.5L223.797 125L220.297 121.5Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 14" d="M253.297 102L256.297 99L259.297 102L256.297 105L253.297 102Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 17" d="M285.297 93.5L288.797 90L292.297 93.5L288.797 97L285.297 93.5Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 20" d="M318.297 82L321.297 79L324.297 82L321.297 85L318.297 82Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 23" d="M350.297 67L353.797 64L357.297 67L353.797 70L350.297 67Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 26" d="M383.297 52L386.797 49L390.297 52L386.797 55L383.297 52Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 29" d="M416.297 38L419.297 35L422.297 38L419.297 41L416.297 38Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 32" d="M448.297 28.5L451.797 25L455.297 28.5L451.797 32L448.297 28.5Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 35" d="M481.297 21.5L484.297 18L487.297 21.5L484.297 25L481.297 21.5Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 38" d="M513.297 11L516.797 8L520.297 11L516.797 14L513.297 11Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 41" d="M545.297 3L548.297 0L551.297 3L548.297 6L545.297 3Z" fill="var(--fill-0, #6A0200)"/>
+<path id="Rectangle 33" d="M448.297 81.5L451.797 78L455.297 81.5L451.797 85L448.297 81.5Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 36" d="M481.297 82.5L484.297 79L487.297 82.5L484.297 86L481.297 82.5Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 39" d="M513.297 80L516.797 77L520.297 80L516.797 83L513.297 80Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 42" d="M545.297 76.5L548.297 73L551.297 76.5L548.297 80L545.297 76.5Z" fill="var(--fill-0, #EE00FF)"/>
+<path id="Rectangle 13" d="M220.297 133.5L223.797 130L227.297 133.5L223.797 137L220.297 133.5Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 16" d="M253.297 135.5L256.297 132L259.297 135.5L256.297 139L253.297 135.5Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 19" d="M285.297 132.5L288.797 129L292.297 132.5L288.797 136L285.297 132.5Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 22" d="M318.297 131.5L321.297 128L324.297 131.5L321.297 135L318.297 131.5Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 25" d="M350.297 131.5L353.797 128L357.297 131.5L353.797 135L350.297 131.5Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 28" d="M383.297 135L386.797 132L390.297 135L386.797 138L383.297 135Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 31" d="M416.297 135.5L419.297 132L422.297 135.5L419.297 139L416.297 135.5Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 34" d="M448.297 137L451.797 134L455.297 137L451.797 140L448.297 137Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 37" d="M481.297 145.5L484.297 142L487.297 145.5L484.297 149L481.297 145.5Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 40" d="M513.297 153.5L516.797 150L520.297 153.5L516.797 157L513.297 153.5Z" fill="var(--fill-0, #0026FF)"/>
+<path id="Rectangle 43" d="M545.297 153.5L548.297 150L551.297 153.5L548.297 157L545.297 153.5Z" fill="var(--fill-0, #0026FF)"/>
+</g>
+</svg>
