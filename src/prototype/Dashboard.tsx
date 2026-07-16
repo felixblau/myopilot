@@ -5,6 +5,7 @@ interface DashboardProps {
   sampleRowRef: RefObject<HTMLTableRowElement | null>
   addPatientRef: RefObject<HTMLButtonElement | null>
   onOpenSample: () => void
+  highlightSampleRow: boolean
   highlightAddPatient: boolean
 }
 
@@ -15,6 +16,7 @@ export default function Dashboard({
   sampleRowRef,
   addPatientRef,
   onOpenSample,
+  highlightSampleRow,
   highlightAddPatient,
 }: DashboardProps) {
   return (
@@ -70,7 +72,11 @@ export default function Dashboard({
             <tr
               ref={sampleRowRef}
               onClick={onOpenSample}
-              className="border-b border-[#edf1f7] cursor-pointer hover:bg-[#f7f8fc] transition-colors font-['Source_Sans_3'] text-[15px] text-[#282b2b]"
+              className={`border-b border-[#edf1f7] cursor-pointer transition-colors font-['Source_Sans_3'] text-[15px] text-[#282b2b] ${
+                highlightSampleRow
+                  ? 'bg-[#05aad4]/[0.07] shadow-[inset_3px_0_0_#05aad4]'
+                  : 'hover:bg-[#f7f8fc]'
+              }`}
             >
               <td className="py-4 px-5 flex items-center gap-2">
                 {samplePatient.lastName}

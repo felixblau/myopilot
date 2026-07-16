@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
-import { OnboardingProvider, useOnboarding } from './OnboardingContext'
-import Coachmark from './Coachmark'
+import { OnboardingProvider, useOnboarding, type Step } from './OnboardingContext'
+import Companion from './Companion'
 import AppChrome from './AppChrome'
 import Dashboard from './Dashboard'
 import Measurements from './Measurements'
@@ -8,27 +8,91 @@ import Report from '../components/report/Report'
 import { samplePatient } from './sampleData'
 
 type View = 'dashboard' | 'measurements' | 'report'
-const TOUR_STEPS = 3 // dashboard, measurements, generate (report has its own closer)
+
+// The narrated sequence. Order drives the pips and Prev/Next.
+const SEQUENCE: Step[] = [
+  'welcome',
+  'openPatient',
+  'reviewMeasurements',
+  'generate',
+  'report',
+]
+
+const COPY: Record<
+  Step,
+  { title: string; body: string; nextLabel?: string }
+> = {
+  welcome: {
+    title: 'Welcome to MyoPilot',
+    body: 'MyoPilot turns a few eye measurements into a clear, patient-ready report on myopia risk and progression — the kind you can walk a parent through. Let’s see how, using a sample patient we’ve added for you.',
+    nextLabel: 'Show me',
+  },
+  openPatient: {
+    title: 'Open the sample patient',
+    body: 'We’ve added “Olivia Smith” to your list. Open her record to see the measurements behind a report — or explore the rest of the app first, this guide will wait.',
+  },
+  reviewMeasurements: {
+    title: 'Measurements are pre-filled',
+    body: 'We’ve entered realistic sample values across each tab — refraction, keratometry, and axial length. Edit any of them, or leave them as they are.',
+  },
+  generate: {
+    title: 'Generate the report',
+    body: 'When you’re ready, hit Generate Report to turn these measurements into a report you can use to guide treatment conversations.',
+  },
+  report: {
+    title: 'This is what MyoPilot produces',
+    body: 'Every patient you add gets a report like this. Ready to create your own?',
+    nextLabel: 'Add a patient',
+  },
+  done: { title: '', body: '' },
+}
 
 function Flow() {
-  const { step, active, setStep, skip } = useOnboarding()
+  const { step, active, setStep, dismiss } = useOnboarding()
   const [view, setView] = useState<View>('dashboard')
 
   const sampleRowRef = useRef<HTMLTableRowElement | null>(null)
   const addPatientRef = useRef<HTMLButtonElement | null>(null)
   const generateRef = useRef<HTMLButtonElement | null>(null)
 
+  // Real actions drive navigation AND keep the companion in sync, so a user
+  // who ignores the card and just clicks around is still narrated correctly.
   const openSample = () => {
     setView('measurements')
-    setStep('measurements')
+    if (active && (step === 'welcome' || step === 'openPatient'))
+      setStep('reviewMeasurements')
   }
   const generate = () => {
     setView('report')
-    setStep('report')
+    if (active) setStep('report')
   }
-  const restart = () => {
+  const backToDashboard = () => {
     setView('dashboard')
     setStep('done')
+  }
+
+  const idx = SEQUENCE.indexOf(step)
+
+  // Companion's Next button: advance the narration, moving the view when the
+  // step implies it (welcome/openPatient → measurements, generate → report).
+  const onNext = () => {
+    if (step === 'welcome') return setStep('openPatient')
+    if (step === 'openPatient') return openSample()
+    if (step === 'reviewMeasurements') return setStep('generate')
+    if (step === 'generate') return generate()
+    if (step === 'report') return backToDashboard()
+  }
+  const onPrev = () => {
+    if (step === 'openPatient') return setStep('welcome')
+    if (step === 'reviewMeasurements') {
+      setView('dashboard')
+      return setStep('openPatient')
+    }
+    if (step === 'generate') return setStep('reviewMeasurements')
+    if (step === 'report') {
+      setView('measurements')
+      return setStep('generate')
+    }
   }
 
   const selected =
@@ -36,15 +100,12 @@ function Flow() {
       ? null
       : `${samplePatient.firstName} ${samplePatient.lastName}`
 
+  const showCompanion = active && step !== 'done'
+
   return (
     <>
       {view === 'report' ? (
-        <div className="relative">
-          <Report />
-          {active && step === 'report' && (
-            <ReportCloser onAddOwn={restart} onSkip={skip} />
-          )}
-        </div>
+        <Report />
       ) : (
         <AppChrome selectedPatient={selected}>
           {view === 'dashboard' && (
@@ -52,6 +113,7 @@ function Flow() {
               sampleRowRef={sampleRowRef}
               addPatientRef={addPatientRef}
               onOpenSample={openSample}
+              highlightSampleRow={active && step === 'openPatient'}
               highlightAddPatient={step === 'done'}
             />
           )}
@@ -65,89 +127,20 @@ function Flow() {
         </AppChrome>
       )}
 
-      {/* Coachmarks */}
-      {active && step === 'dashboard' && view === 'dashboard' && (
-        <Coachmark
-          targetRef={sampleRowRef}
-          title="Start with a sample patient"
-          body="We've added a sample patient so you can see what MyoPilot produces. Open it to continue."
-          ctaLabel="Open patient"
-          onCta={openSample}
-          onSkip={skip}
-          stepIndex={0}
-          stepCount={TOUR_STEPS}
-        />
-      )}
-
-      {active && step === 'measurements' && view === 'measurements' && (
-        <Coachmark
-          targetRef={generateRef}
-          title="These measurements are pre-filled"
-          body="We've entered realistic sample values across each tab — refraction, keratometry, and axial length. Edit any of them, or just continue."
-          ctaLabel="Looks good"
-          onCta={() => setStep('generate')}
-          onSkip={skip}
-          stepIndex={1}
-          stepCount={TOUR_STEPS}
-          placement="top"
-        />
-      )}
-
-      {active && step === 'generate' && view === 'measurements' && (
-        <Coachmark
-          targetRef={generateRef}
-          title="Generate the report"
-          body="This turns the measurements into a patient-ready report you can use to guide treatment decisions."
-          ctaLabel="Generate Report"
-          onCta={generate}
-          onSkip={skip}
-          stepIndex={2}
-          stepCount={TOUR_STEPS}
-          placement="top"
+      {showCompanion && (
+        <Companion
+          title={COPY[step].title}
+          body={COPY[step].body}
+          nextLabel={COPY[step].nextLabel}
+          stepIndex={idx}
+          stepCount={SEQUENCE.length}
+          canPrev={idx > 0}
+          onNext={onNext}
+          onPrev={onPrev}
+          onDismiss={dismiss}
         />
       )}
     </>
-  )
-}
-
-// Final closer sits over the report — the actual conversion hook.
-function ReportCloser({
-  onAddOwn,
-  onSkip,
-}: {
-  onAddOwn: () => void
-  onSkip: () => void
-}) {
-  return (
-    <div className="fixed inset-0 z-[100] bg-[#00154f]/40 flex items-center justify-center p-4">
-      <div className="bg-white rounded-[14px] shadow-2xl max-w-[440px] w-full p-7 flex flex-col gap-4">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#05aad4] to-[#00154f] flex items-center justify-center text-white text-[22px]">
-          ✓
-        </div>
-        <h2 className="font-['Inter'] text-[22px] font-bold text-[#00154f]">
-          This is what MyoPilot produces
-        </h2>
-        <p className="font-['Source_Sans_3'] text-[15px] leading-[1.55] text-[#4a5568]">
-          Every patient you add gets a report like this — a clear, shareable
-          picture of myopia risk and progression to guide treatment
-          conversations. Ready to create your own?
-        </p>
-        <div className="flex items-center justify-between pt-2">
-          <button
-            onClick={onSkip}
-            className="font-['Inter'] text-[14px] text-[#4a5568] hover:text-[#282b2b]"
-          >
-            Keep exploring
-          </button>
-          <button
-            onClick={onAddOwn}
-            className="bg-gradient-to-l from-[#05aad4] to-[#00154f] rounded-[8px] px-5 py-2.5 text-[15px] font-medium text-white font-['Inter'] hover:opacity-90 transition-opacity"
-          >
-            Add your first patient
-          </button>
-        </div>
-      </div>
-    </div>
   )
 }
 

@@ -3,29 +3,30 @@ import { createContext, useContext, useState, type ReactNode } from 'react'
 // The onboarding walks the user across the value path. Steps advance on the
 // REAL action (open patient, hit generate) so the tour teaches by doing.
 export type Step =
-  | 'dashboard' // point at the seeded sample patient row
-  | 'measurements' // measurements are pre-filled; nudge to review/continue
-  | 'generate' // point at Generate Report
+  | 'welcome' // intro card; purpose of MyoPilot
+  | 'openPatient' // nudge toward the seeded sample patient
+  | 'reviewMeasurements' // measurements are pre-filled; review/continue
+  | 'generate' // nudge toward Generate Report
   | 'report' // final: "this is the payoff — add your own"
-  | 'done' // tour dismissed / finished
+  | 'done' // companion dismissed / finished
 
 interface OnboardingState {
   step: Step
   active: boolean
   setStep: (s: Step) => void
-  skip: () => void
+  dismiss: () => void
 }
 
 const OnboardingCtx = createContext<OnboardingState | null>(null)
 
 export function OnboardingProvider({ children }: { children: ReactNode }) {
-  const [step, setStep] = useState<Step>('dashboard')
+  const [step, setStep] = useState<Step>('welcome')
   const [active, setActive] = useState(true)
 
-  const skip = () => setActive(false)
+  const dismiss = () => setActive(false)
 
   return (
-    <OnboardingCtx.Provider value={{ step, active, setStep, skip }}>
+    <OnboardingCtx.Provider value={{ step, active, setStep, dismiss }}>
       {children}
     </OnboardingCtx.Provider>
   )
