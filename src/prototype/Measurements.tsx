@@ -78,8 +78,7 @@ export default function Measurements({
           Measurements
         </h1>
         <span className="font-['Source_Sans_3'] text-[14px] text-[#4a5568]">
-          {samplePatient.firstName} {samplePatient.lastName} · Age{' '}
-          {data.ageAtExam}
+          {samplePatient.displayName} · Age {data.ageAtExam}
         </span>
       </div>
 

@@ -10,114 +10,124 @@ import { samplePatient } from './sampleData'
 
 type View = 'dashboard' | 'summary' | 'measurements' | 'report'
 
-// The narrated sequence. Order drives the pips and Prev/Next.
-const SEQUENCE: Step[] = [
-  'welcome',
-  'openPatient',
-  'summary',
-  'reviewMeasurements',
-  'generate',
-  'report',
-]
+// The narrated sequence drives the pips and Prev/Next.
+const SEQUENCE: Step[] = ['welcome', 'openPatient', 'summary', 'report']
 
+// Copy transcribed verbatim from the Figma onboarding frames.
 const COPY: Record<
-  Step,
-  { title: string; body: string; nextLabel?: string }
+  Exclude<Step, 'done'>,
+  { title: string; body: React.ReactNode; button: string; back: boolean }
 > = {
   welcome: {
-    title: 'Welcome to MyoPilot',
+    title: 'Welcome to Myopilot',
     body: 'MyoPilot turns a few eye measurements into a clear, patient-ready report on myopia risk and progression — the kind you can walk a parent through. Let’s see how, using a sample patient we’ve added for you.',
-    nextLabel: 'Show me',
+    button: 'Show me',
+    back: false,
   },
   openPatient: {
     title: 'Open the sample patient',
-    body: 'We’ve added “Olivia Smith” to your list. Open her record to see her full picture — or explore the rest of the app first, this guide will wait.',
+    body: (
+      <>
+        <p className="mb-4">
+          We have added a sample patient, “JANE DOE”, to your patient list.
+          We’ve already pre-entered realistic sample values for this sample
+          patient.
+        </p>
+        <p>
+          <span className="font-semibold text-[#191b1e]">
+            Click the patient record
+          </span>{' '}
+          to see the patient’s summary and generate a report.
+        </p>
+      </>
+    ),
+    button: 'Next',
+    back: true,
   },
   summary: {
-    title: 'This is the patient summary',
-    body: 'Every patient opens to a view like this — a risk score, hyperopic reserve, and a progression chart projecting how their myopia may develop under different treatments. It’s all driven by their measurements.',
-  },
-  reviewMeasurements: {
-    title: 'Measurements are pre-filled',
-    body: 'We’ve entered realistic sample values across each tab — refraction, keratometry, and axial length. Edit any of them, or leave them as they are.',
-  },
-  generate: {
-    title: 'Generate the report',
-    body: 'When you’re ready, hit Generate report to turn this patient’s data into a shareable report you can use to guide treatment conversations.',
+    title: 'The patient summary',
+    body: (
+      <>
+        <p className="mb-4">
+          Each of your patients has a summary like this, showing a risk score,
+          hyperopic reserve, a progression and projection chart, and more. It’s
+          all driven by their measurements.
+        </p>
+        <p>
+          When you’re ready, hit{' '}
+          <span className="font-semibold text-[#191b1e]">Generate report</span>{' '}
+          to turn this patient’s data into a shareable report you can use to
+          guide treatment conversations.
+        </p>
+      </>
+    ),
+    button: 'Next',
+    back: true,
   },
   report: {
-    title: 'This is what MyoPilot produces',
-    body: 'Every patient you add gets a report like this. Ready to create your own?',
-    nextLabel: 'Add a patient',
+    title: 'Easy, personalized reports',
+    body: (
+      <>
+        <p className="mb-4">
+          Imagine sharing reports like this one with the parents during the
+          consult, and emailing a copy to them as a take home.
+        </p>
+        <p className="mb-4">
+          These reports are easy to create, explains myopia in terms that are
+          easy to understand, and ultimately helps convert families into
+          patients.
+        </p>
+        <p>Ready to create your own?</p>
+      </>
+    ),
+    button: 'Create patient',
+    back: false,
   },
-  done: { title: '', body: '' },
 }
 
 function Flow() {
-  const { step, active, setStep, dismiss } = useOnboarding()
+  const { step, active, setStep, finish } = useOnboarding()
   const [view, setView] = useState<View>('dashboard')
 
   const sampleRowRef = useRef<HTMLTableRowElement | null>(null)
-  const addPatientRef = useRef<HTMLButtonElement | null>(null)
   const generateRef = useRef<HTMLButtonElement | null>(null)
 
-  // Real actions drive navigation AND keep the companion in sync, so a user
-  // who ignores the card and just clicks around is still narrated correctly.
+  // Real actions drive navigation AND keep the companion in sync.
   const openSample = () => {
     setView('summary')
     if (active && (step === 'welcome' || step === 'openPatient'))
       setStep('summary')
   }
-  const openMeasurements = () => {
-    setView('measurements')
-    if (active && (step === 'summary' || step === 'openPatient'))
-      setStep('reviewMeasurements')
-  }
+  const openMeasurements = () => setView('measurements')
   const generate = () => {
     setView('report')
     if (active) setStep('report')
   }
-  const backToDashboard = () => {
+  const createPatient = () => {
     setView('dashboard')
-    setStep('done')
+    finish()
   }
 
   const idx = SEQUENCE.indexOf(step)
 
-  // Companion Next: advance the narration, moving the view when implied.
   const onNext = () => {
     if (step === 'welcome') return setStep('openPatient')
     if (step === 'openPatient') return openSample()
-    if (step === 'summary') return openMeasurements()
-    if (step === 'reviewMeasurements') return setStep('generate')
-    if (step === 'generate') return generate()
-    if (step === 'report') return backToDashboard()
+    if (step === 'summary') return generate()
+    if (step === 'report') return createPatient()
   }
-  const onPrev = () => {
+  const onBack = () => {
     if (step === 'openPatient') return setStep('welcome')
     if (step === 'summary') {
       setView('dashboard')
       return setStep('openPatient')
     }
-    if (step === 'reviewMeasurements') {
-      setView('summary')
-      return setStep('summary')
-    }
-    if (step === 'generate') return setStep('reviewMeasurements')
-    if (step === 'report') {
-      setView('measurements')
-      return setStep('generate')
-    }
   }
 
-  const selected =
-    view === 'dashboard'
-      ? null
-      : `${samplePatient.firstName} ${samplePatient.lastName}`
+  const selected = view === 'dashboard' ? null : samplePatient.displayName
 
   const showCompanion = active && step !== 'done'
-  // Generate lives on both Summary and Measurements — highlight on either.
-  const highlightGenerate = active && step === 'generate'
+  const highlightGenerate = active && step === 'summary'
 
   return (
     <>
@@ -128,10 +138,8 @@ function Flow() {
           {view === 'dashboard' && (
             <Dashboard
               sampleRowRef={sampleRowRef}
-              addPatientRef={addPatientRef}
               onOpenSample={openSample}
               highlightSampleRow={active && step === 'openPatient'}
-              highlightAddPatient={step === 'done'}
             />
           )}
           {view === 'summary' && (
@@ -139,14 +147,14 @@ function Flow() {
               generateRef={generateRef}
               onGenerate={generate}
               onOpenMeasurements={openMeasurements}
-              highlightGenerate={highlightGenerate && view === 'summary'}
+              highlightGenerate={highlightGenerate}
             />
           )}
           {view === 'measurements' && (
             <Measurements
               generateRef={generateRef}
               onGenerate={generate}
-              highlightGenerate={highlightGenerate && view === 'measurements'}
+              highlightGenerate={false}
             />
           )}
         </AppChrome>
@@ -156,13 +164,12 @@ function Flow() {
         <Companion
           title={COPY[step].title}
           body={COPY[step].body}
-          nextLabel={COPY[step].nextLabel}
+          buttonLabel={COPY[step].button}
+          showBack={COPY[step].back}
+          onBack={onBack}
           stepIndex={idx}
           stepCount={SEQUENCE.length}
-          canPrev={idx > 0}
           onNext={onNext}
-          onPrev={onPrev}
-          onDismiss={dismiss}
         />
       )}
     </>

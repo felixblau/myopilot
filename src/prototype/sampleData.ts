@@ -11,6 +11,12 @@ export interface SamplePatient {
   firstName: string
   lastName: string
   preferredName: string
+  displayName: string
+  parentFirstName: string
+  parentLastName: string
+  phone: string
+  email: string
+  status: string
   dateOfBirth: string // ISO
   ageYears: number
   gender: string
@@ -19,16 +25,21 @@ export interface SamplePatient {
   doctor: string
 }
 
-// Values align with the pre-built report render (Olivia Smith) so the demo
-// reads as one continuous patient from list → measurements → report.
+// Sample patient per the Figma onboarding frames: JANE (Jane) DOE.
 export const samplePatient: SamplePatient = {
-  patientId: 'SAMPLE-001',
-  firstName: 'Olivia',
-  lastName: 'Smith',
-  preferredName: 'Olivia',
+  patientId: 'PT-2025-03-0001',
+  firstName: 'JANE',
+  lastName: 'DOE',
+  preferredName: 'Jane',
+  displayName: 'Jane Doe',
+  parentFirstName: 'Parent',
+  parentLastName: 'Example',
+  phone: '123-456-7890',
+  email: 'sampleemail@gmail.com',
+  status: 'Active',
   dateOfBirth: '2013-06-10',
   ageYears: 12.5,
-  gender: 'Female',
+  gender: 'F',
   ethnicity: 'Asian',
   location: 'Oakville Eye Care',
   doctor: 'Christine Yeung',

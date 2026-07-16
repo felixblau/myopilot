@@ -1,99 +1,119 @@
 import { type RefObject } from 'react'
-import { samplePatient } from './sampleData'
+import { samplePatient as p } from './sampleData'
 
 interface DashboardProps {
   sampleRowRef: RefObject<HTMLTableRowElement | null>
-  addPatientRef: RefObject<HTMLButtonElement | null>
   onOpenSample: () => void
   highlightSampleRow: boolean
-  highlightAddPatient: boolean
 }
 
-const inputCls =
-  'h-10 px-3 rounded-[6px] border border-[#e2e8f0] bg-white text-[14px] font-["Source_Sans_3"] text-[#4a5568] placeholder:text-[#a0aec0] outline-none focus:border-[#05aad4]'
+const COLS = [
+  'Patient FN',
+  'Patient LN',
+  'Preferred Name',
+  'Gender',
+  'Age',
+  'Ethnicity',
+  'Parent FN',
+  'Parent LN',
+  'Phone',
+  'Email',
+  'Status',
+]
 
+// Matches the Figma "1.1 Patient Home": page title + Add Patients, a collapsed
+// Filter Patients divider, and the wide patient table with a single sample row.
 export default function Dashboard({
   sampleRowRef,
-  addPatientRef,
   onOpenSample,
   highlightSampleRow,
-  highlightAddPatient,
 }: DashboardProps) {
+  const cells = [
+    p.firstName,
+    p.lastName,
+    p.preferredName,
+    p.gender,
+    String(p.ageYears),
+    p.ethnicity,
+    p.parentFirstName,
+    p.parentLastName,
+    p.phone,
+    p.email,
+  ]
+
   return (
-    <div className="max-w-[1400px] mx-auto px-8 py-6">
-      <button
-        ref={addPatientRef}
-        className={`mb-5 rounded-[8px] px-5 py-2.5 text-[15px] font-medium text-white font-['Inter'] transition-all ${
-          highlightAddPatient
-            ? 'bg-gradient-to-l from-[#05aad4] to-[#00154f] ring-4 ring-[#06c4f0]/40'
-            : 'bg-[#00154f] hover:bg-[#001a5e]'
-        }`}
-      >
-        Add Patient
-      </button>
+    <div className="px-20 py-6">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="font-['Inter'] text-[20px] font-semibold text-[#191b1e]">
+          Patients
+        </h1>
+        <button className="h-9 px-4 rounded-[6px] bg-[#2a4c7c] text-white font-['Inter'] text-[14px] font-medium hover:opacity-90 transition-opacity">
+          Add Patients
+        </button>
+      </div>
 
-      {/* Filter card */}
-      <section className="bg-white rounded-[10px] border border-[#e2e8f0] p-6 mb-6">
-        <h2 className="font-['Inter'] text-[18px] font-semibold text-[#00154f] mb-4">
+      {/* Collapsed filter divider */}
+      <div className="flex items-center gap-2 mb-4 text-[#2a4c7c]">
+        <div className="flex-1 h-px bg-[#e2e8f0]" />
+        <span className="font-['Inter'] text-[14px] font-medium">
           Filter Patients
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-          <input className={inputCls} placeholder="Patient Number" />
-          <input className={inputCls} placeholder="Name" />
-          <input className={inputCls} placeholder="Preferred Name" />
-          <input className={inputCls} placeholder="Birth Date" />
-        </div>
-        <div className="flex gap-3">
-          <button className="rounded-[8px] px-5 py-2 text-[14px] font-medium text-white font-['Inter'] bg-[#00154f]">
-            Apply
-          </button>
-          <button className="rounded-[8px] px-5 py-2 text-[14px] font-medium text-[#05aad4] font-['Inter'] border border-[#05aad4]">
-            Clear
-          </button>
-        </div>
-        <p className="mt-4 font-['Source_Sans_3'] text-[14px] text-[#4a5568]">
-          1 patient found
-        </p>
-      </section>
+        </span>
+        <ChevronDown />
+        <div className="flex-1 h-px bg-[#e2e8f0]" />
+      </div>
 
-      {/* Patient table */}
-      <section className="bg-white rounded-[10px] border border-[#e2e8f0] overflow-hidden">
-        <table className="w-full text-left">
+      {/* Table */}
+      <div className="border border-[#e2e8f0] rounded-[6px] overflow-hidden bg-white">
+        <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-[#00154f] text-white font-['Inter'] text-[14px]">
-              <th className="py-3.5 px-5 font-semibold">Last Name</th>
-              <th className="py-3.5 px-5 font-semibold">Preferred Name</th>
-              <th className="py-3.5 px-5 font-semibold">First Name</th>
-              <th className="py-3.5 px-5 font-semibold">Gender</th>
-              <th className="py-3.5 px-5 font-semibold text-right">Actions</th>
+            <tr className="bg-[#f7f8fc] font-['Inter'] text-[12px] font-semibold text-[#191b1e]">
+              {COLS.map((c) => (
+                <th key={c} className="py-2.5 px-3 whitespace-nowrap">
+                  {c}
+                </th>
+              ))}
+              <th className="py-2.5 px-3 w-10" />
             </tr>
           </thead>
           <tbody>
             <tr
               ref={sampleRowRef}
               onClick={onOpenSample}
-              className={`border-b border-[#edf1f7] cursor-pointer transition-colors font-['Source_Sans_3'] text-[15px] text-[#282b2b] ${
+              className={`cursor-pointer transition-colors font-['Source_Sans_3'] text-[14px] text-[#282b2b] ${
                 highlightSampleRow
-                  ? 'bg-[#05aad4]/[0.07] shadow-[inset_3px_0_0_#05aad4]'
+                  ? 'bg-[#00aad4]/[0.08] shadow-[inset_3px_0_0_#00aad4]'
                   : 'hover:bg-[#f7f8fc]'
               }`}
             >
-              <td className="py-4 px-5 flex items-center gap-2">
-                {samplePatient.lastName}
-                <span className="text-[11px] font-['Inter'] font-medium text-[#05aad4] bg-[#05aad4]/10 rounded-full px-2 py-0.5">
-                  Sample
-                </span>
-              </td>
-              <td className="py-4 px-5">{samplePatient.preferredName}</td>
-              <td className="py-4 px-5">{samplePatient.firstName}</td>
-              <td className="py-4 px-5">{samplePatient.gender}</td>
-              <td className="py-4 px-5 text-right text-[#05aad4]">
-                ✎&nbsp;&nbsp;🗑
-              </td>
+              {cells.map((v, i) => (
+                <td key={i} className="py-3 px-3 whitespace-nowrap">
+                  {v}
+                </td>
+              ))}
+              <td className="py-3 px-3 text-[#22c55e] font-medium">{p.status}</td>
+              <td className="py-3 px-3 text-[#71717a]">⋯</td>
             </tr>
           </tbody>
         </table>
-      </section>
+      </div>
+
+      {/* Footer / pagination */}
+      <div className="flex items-center justify-between mt-4 font-['Inter'] text-[13px] text-[#71717a]">
+        <span>20 results per page ⌄</span>
+        <span className="flex items-center gap-3">
+          ‹ 1-1 of 1 ›
+        </span>
+        <span>10 results per page ⌄</span>
+      </div>
     </div>
+  )
+}
+
+function ChevronDown() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+      <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   )
 }

@@ -1,21 +1,20 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 
-// The onboarding walks the user across the value path. Steps advance on the
-// REAL action (open patient, hit generate) so the tour teaches by doing.
+// The designed 4-step onboarding sequence (see Figma "2. Onboarding").
+// Steps advance on the REAL action (open patient, generate) so the tour
+// teaches by doing; the companion also drives them via its button.
 export type Step =
-  | 'welcome' // intro card; purpose of MyoPilot
+  | 'welcome' // intro on the patient list
   | 'openPatient' // nudge toward the seeded sample patient
-  | 'summary' // patient summary landing: risk score + projections
-  | 'reviewMeasurements' // measurements are pre-filled; review/continue
-  | 'generate' // nudge toward Generate report
-  | 'report' // final: "this is the payoff — add your own"
-  | 'done' // companion dismissed / finished
+  | 'summary' // patient summary: describes the view + generate report
+  | 'report' // the payoff report: "ready to create your own?"
+  | 'done' // tour finished
 
 interface OnboardingState {
   step: Step
   active: boolean
   setStep: (s: Step) => void
-  dismiss: () => void
+  finish: () => void
 }
 
 const OnboardingCtx = createContext<OnboardingState | null>(null)
@@ -24,10 +23,10 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
   const [step, setStep] = useState<Step>('welcome')
   const [active, setActive] = useState(true)
 
-  const dismiss = () => setActive(false)
+  const finish = () => setActive(false)
 
   return (
-    <OnboardingCtx.Provider value={{ step, active, setStep, dismiss }}>
+    <OnboardingCtx.Provider value={{ step, active, setStep, finish }}>
       {children}
     </OnboardingCtx.Provider>
   )
