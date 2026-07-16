@@ -5,8 +5,9 @@ import { createContext, useContext, useState, type ReactNode } from 'react'
 export type Step =
   | 'welcome' // intro card; purpose of MyoPilot
   | 'openPatient' // nudge toward the seeded sample patient
+  | 'summary' // patient summary landing: risk score + projections
   | 'reviewMeasurements' // measurements are pre-filled; review/continue
-  | 'generate' // nudge toward Generate Report
+  | 'generate' // nudge toward Generate report
   | 'report' // final: "this is the payoff — add your own"
   | 'done' // companion dismissed / finished
 

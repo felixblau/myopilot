@@ -3,16 +3,18 @@ import { OnboardingProvider, useOnboarding, type Step } from './OnboardingContex
 import Companion from './Companion'
 import AppChrome from './AppChrome'
 import Dashboard from './Dashboard'
+import PatientSummary from './PatientSummary'
 import Measurements from './Measurements'
 import Report from '../components/report/Report'
 import { samplePatient } from './sampleData'
 
-type View = 'dashboard' | 'measurements' | 'report'
+type View = 'dashboard' | 'summary' | 'measurements' | 'report'
 
 // The narrated sequence. Order drives the pips and Prev/Next.
 const SEQUENCE: Step[] = [
   'welcome',
   'openPatient',
+  'summary',
   'reviewMeasurements',
   'generate',
   'report',
@@ -29,7 +31,11 @@ const COPY: Record<
   },
   openPatient: {
     title: 'Open the sample patient',
-    body: 'We’ve added “Olivia Smith” to your list. Open her record to see the measurements behind a report — or explore the rest of the app first, this guide will wait.',
+    body: 'We’ve added “Olivia Smith” to your list. Open her record to see her full picture — or explore the rest of the app first, this guide will wait.',
+  },
+  summary: {
+    title: 'This is the patient summary',
+    body: 'Every patient opens to a view like this — a risk score, hyperopic reserve, and a progression chart projecting how their myopia may develop under different treatments. It’s all driven by their measurements.',
   },
   reviewMeasurements: {
     title: 'Measurements are pre-filled',
@@ -37,7 +43,7 @@ const COPY: Record<
   },
   generate: {
     title: 'Generate the report',
-    body: 'When you’re ready, hit Generate Report to turn these measurements into a report you can use to guide treatment conversations.',
+    body: 'When you’re ready, hit Generate report to turn this patient’s data into a shareable report you can use to guide treatment conversations.',
   },
   report: {
     title: 'This is what MyoPilot produces',
@@ -58,8 +64,13 @@ function Flow() {
   // Real actions drive navigation AND keep the companion in sync, so a user
   // who ignores the card and just clicks around is still narrated correctly.
   const openSample = () => {
-    setView('measurements')
+    setView('summary')
     if (active && (step === 'welcome' || step === 'openPatient'))
+      setStep('summary')
+  }
+  const openMeasurements = () => {
+    setView('measurements')
+    if (active && (step === 'summary' || step === 'openPatient'))
       setStep('reviewMeasurements')
   }
   const generate = () => {
@@ -73,20 +84,24 @@ function Flow() {
 
   const idx = SEQUENCE.indexOf(step)
 
-  // Companion's Next button: advance the narration, moving the view when the
-  // step implies it (welcome/openPatient → measurements, generate → report).
+  // Companion Next: advance the narration, moving the view when implied.
   const onNext = () => {
     if (step === 'welcome') return setStep('openPatient')
     if (step === 'openPatient') return openSample()
+    if (step === 'summary') return openMeasurements()
     if (step === 'reviewMeasurements') return setStep('generate')
     if (step === 'generate') return generate()
     if (step === 'report') return backToDashboard()
   }
   const onPrev = () => {
     if (step === 'openPatient') return setStep('welcome')
-    if (step === 'reviewMeasurements') {
+    if (step === 'summary') {
       setView('dashboard')
       return setStep('openPatient')
+    }
+    if (step === 'reviewMeasurements') {
+      setView('summary')
+      return setStep('summary')
     }
     if (step === 'generate') return setStep('reviewMeasurements')
     if (step === 'report') {
@@ -101,6 +116,8 @@ function Flow() {
       : `${samplePatient.firstName} ${samplePatient.lastName}`
 
   const showCompanion = active && step !== 'done'
+  // Generate lives on both Summary and Measurements — highlight on either.
+  const highlightGenerate = active && step === 'generate'
 
   return (
     <>
@@ -117,11 +134,19 @@ function Flow() {
               highlightAddPatient={step === 'done'}
             />
           )}
+          {view === 'summary' && (
+            <PatientSummary
+              generateRef={generateRef}
+              onGenerate={generate}
+              onOpenMeasurements={openMeasurements}
+              highlightGenerate={highlightGenerate && view === 'summary'}
+            />
+          )}
           {view === 'measurements' && (
             <Measurements
               generateRef={generateRef}
               onGenerate={generate}
-              highlightGenerate={active && step === 'generate'}
+              highlightGenerate={highlightGenerate && view === 'measurements'}
             />
           )}
         </AppChrome>
