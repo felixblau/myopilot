@@ -6,6 +6,7 @@ import Testimonials from './components/Testimonials'
 import Footer from './components/Footer'
 import EarlyAccessModal from './components/EarlyAccessModal'
 import Report from './components/report/Report'
+import Prototype from './prototype/Prototype'
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -19,6 +20,10 @@ function App() {
 
   if (page === '#report') {
     return <Report />
+  }
+
+  if (page === '#app') {
+    return <Prototype />
   }
 
   return (
