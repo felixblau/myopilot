@@ -27,7 +27,7 @@ export default function Navbar({ onRequestAccess }: NavbarProps) {
         </div>
 
         <div className="hidden md:flex gap-[12px] items-start">
-          <a href="#login" className="bg-white border border-black/10 rounded-[8px] px-[16px] py-[8px] text-[14px] font-medium text-[#282b2b] font-['Inter'] leading-[1.25] hover:bg-gray-50 transition-colors">
+          <a href="#app" className="bg-white border border-black/10 rounded-[8px] px-[16px] py-[8px] text-[14px] font-medium text-[#282b2b] font-['Inter'] leading-[1.25] hover:bg-gray-50 transition-colors">
             Log in
           </a>
           <button
@@ -57,7 +57,7 @@ export default function Navbar({ onRequestAccess }: NavbarProps) {
         <div className="md:hidden px-4 pb-4 flex flex-col gap-4 bg-white">
           <a href="#about" className="font-['Source_Sans_3'] text-[16px] text-[#282b2b]">About</a>
           <a href="#contact" className="font-['Source_Sans_3'] text-[16px] text-[#282b2b]">Contact</a>
-          <a href="#login" className="bg-white border border-black/10 rounded-[8px] px-[16px] py-[8px] text-[14px] font-medium text-[#282b2b] font-['Inter'] text-center">Log in</a>
+          <a href="#app" className="bg-white border border-black/10 rounded-[8px] px-[16px] py-[8px] text-[14px] font-medium text-[#282b2b] font-['Inter'] text-center">Log in</a>
           <button onClick={onRequestAccess} className="bg-gradient-to-l from-[#05aad4] to-[#00154f] rounded-[8px] px-[16px] py-[8px] text-[14px] font-medium text-white font-['Inter']">Schedule a demo</button>
         </div>
       )}
