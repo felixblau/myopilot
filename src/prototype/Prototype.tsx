@@ -14,15 +14,28 @@ type View = 'dashboard' | 'summary' | 'measurements' | 'report'
 const SEQUENCE: Step[] = ['welcome', 'openPatient', 'summary', 'report']
 
 // Copy transcribed verbatim from the Figma onboarding frames.
+// `position` places the card near what each step discusses — mirroring how the
+// Intro Modal repositions across the Figma "2. Onboarding" frames:
+//   welcome     → centered, upper (general intro)
+//   openPatient → centered, just under the outlined sample row
+//   summary     → top-right, beside the "Generate report" button
+//   report      → left side, alongside the tall report
 const COPY: Record<
   Exclude<Step, 'done'>,
-  { title: string; body: React.ReactNode; button: string; back: boolean }
+  {
+    title: string
+    body: React.ReactNode
+    button: string
+    back: boolean
+    position: string
+  }
 > = {
   welcome: {
     title: 'Welcome to Myopilot',
     body: 'MyoPilot turns a few eye measurements into a clear, patient-ready report on myopia risk and progression — the kind you can walk a parent through. Let’s see how, using a sample patient we’ve added for you.',
     button: 'Show me',
     back: false,
+    position: 'top-[240px] left-1/2 -translate-x-1/2',
   },
   openPatient: {
     title: 'Open the sample patient',
@@ -43,6 +56,7 @@ const COPY: Record<
     ),
     button: 'Next',
     back: true,
+    position: 'top-[240px] left-1/2 -translate-x-1/2',
   },
   summary: {
     title: 'The patient summary',
@@ -63,6 +77,7 @@ const COPY: Record<
     ),
     button: 'Next',
     back: true,
+    position: 'top-[104px] right-6',
   },
   report: {
     title: 'Easy, personalized reports',
@@ -82,6 +97,7 @@ const COPY: Record<
     ),
     button: 'Create patient',
     back: false,
+    position: 'top-[104px] left-6',
   },
 }
 
@@ -170,6 +186,7 @@ function Flow() {
           stepIndex={idx}
           stepCount={SEQUENCE.length}
           onNext={onNext}
+          positionClass={COPY[step].position}
         />
       )}
     </>

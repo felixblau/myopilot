@@ -13,6 +13,9 @@ interface CompanionProps {
   onNext: () => void
   showBack: boolean
   onBack: () => void
+  // Tailwind anchor classes placing the card near what the step discusses
+  // (see Figma "2. Onboarding" — the modal repositions per step).
+  positionClass: string
 }
 
 const PRIMARY = '#2a4c7c'
@@ -58,6 +61,7 @@ export default function Companion({
   onNext,
   showBack,
   onBack,
+  positionClass,
 }: CompanionProps) {
   const [collapsed, setCollapsed] = useState(false)
 
@@ -84,7 +88,7 @@ export default function Companion({
 
   return (
     <div
-      className="fixed bottom-6 left-6 z-50 w-[442px] max-w-[calc(100vw-3rem)] bg-white border rounded-[8px] p-6 flex flex-col gap-4 drop-shadow-[0px_8px_12px_rgba(0,0,0,0.1)]"
+      className={`fixed z-50 w-[442px] max-w-[calc(100vw-3rem)] bg-white border rounded-[8px] p-6 flex flex-col gap-4 drop-shadow-[0px_8px_12px_rgba(0,0,0,0.1)] transition-[top,left,right,bottom] duration-500 ease-out ${positionClass}`}
       style={{ borderColor: PRIMARY }}
     >
       {/* Title row */}
