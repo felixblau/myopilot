@@ -81,7 +81,7 @@ export default function PatientSummary({
               ref={generateRef}
               onClick={onGenerate}
               className={`h-9 px-4 rounded-[6px] bg-[#2a4c7c] text-white font-['Inter'] text-[13px] font-medium flex items-center gap-2 transition-all hover:opacity-90 ${
-                highlightGenerate ? 'ring-4 ring-[#00aad4]/40' : ''
+                highlightGenerate ? 'myo-cta-pulse' : ''
               }`}
             >
               Generate report 📄

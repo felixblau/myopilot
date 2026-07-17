@@ -82,7 +82,7 @@ export default function Dashboard({
               onClick={onOpenSample}
               className={`cursor-pointer transition-colors font-['Source_Sans_3'] text-[14px] text-[#282b2b] ${
                 highlightSampleRow
-                  ? 'bg-[#00aad4]/[0.08] shadow-[inset_3px_0_0_#00aad4]'
+                  ? 'relative z-10 myo-row-attention'
                   : 'hover:bg-[#f7f8fc]'
               }`}
             >
