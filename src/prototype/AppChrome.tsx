@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 
 interface AppChromeProps {
   selectedPatient?: string | null
+  onOpenProfile?: () => void
   children: ReactNode
 }
 
@@ -13,7 +14,11 @@ const TABS = [
 
 // The product's top tab bar (see Figma frames): logo, section tabs,
 // right-side utility icons + account.
-export default function AppChrome({ selectedPatient, children }: AppChromeProps) {
+export default function AppChrome({
+  selectedPatient,
+  onOpenProfile,
+  children,
+}: AppChromeProps) {
   return (
     <div className="min-h-screen bg-[#f7f8fc]">
       <header className="h-12 bg-white border-b border-[#e2e8f0] flex items-stretch text-[14px]">
@@ -48,13 +53,23 @@ export default function AppChrome({ selectedPatient, children }: AppChromeProps)
             </span>
           )}
           <span className="opacity-70">ⓘ</span>
-          <span className="opacity-70">👤</span>
+          <button
+            onClick={onOpenProfile}
+            title="My Profile"
+            className="opacity-70 hover:opacity-100 transition-opacity"
+          >
+            👤
+          </button>
           <span className="opacity-70">⚙</span>
-          <div className="flex items-center gap-2 pl-2">
+          <button
+            onClick={onOpenProfile}
+            title="My Profile"
+            className="flex items-center gap-2 pl-2 hover:opacity-90 transition-opacity"
+          >
             <div className="w-8 h-8 rounded-full bg-[#2a4c7c] text-white flex items-center justify-center font-['Inter'] text-[12px] font-semibold">
               CY
             </div>
-            <div className="leading-tight">
+            <div className="leading-tight text-left">
               <div className="font-['Inter'] text-[13px] font-semibold text-[#191b1e]">
                 Christine Yeung
               </div>
@@ -62,7 +77,7 @@ export default function AppChrome({ selectedPatient, children }: AppChromeProps)
                 cyeung@cyeyecare.com
               </div>
             </div>
-          </div>
+          </button>
         </div>
       </header>
 

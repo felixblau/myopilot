@@ -1,14 +1,16 @@
 import { useRef, useState } from 'react'
 import { OnboardingProvider, useOnboarding, type Step } from './OnboardingContext'
+import { ProjectionPrefsProvider } from './ProjectionPrefsContext'
 import Companion from './Companion'
 import AppChrome from './AppChrome'
 import Dashboard from './Dashboard'
 import PatientSummary from './PatientSummary'
 import Measurements from './Measurements'
+import Profile from './Profile'
 import Report from '../components/report/Report'
 import { samplePatient } from './sampleData'
 
-type View = 'dashboard' | 'summary' | 'measurements' | 'report'
+type View = 'dashboard' | 'summary' | 'measurements' | 'report' | 'profile'
 
 // The narrated sequence drives the pips and Prev/Next.
 const SEQUENCE: Step[] = ['welcome', 'openPatient', 'summary', 'report']
@@ -77,7 +79,7 @@ const COPY: Record<
     ),
     button: 'Next',
     back: true,
-    position: 'top-[104px] right-6',
+    position: 'top-[180px] right-6',
   },
   report: {
     title: 'Easy, personalized reports',
@@ -115,6 +117,7 @@ function Flow() {
       setStep('summary')
   }
   const openMeasurements = () => setView('measurements')
+  const openProfile = () => setView('profile')
   const generate = () => {
     setView('report')
     if (active) setStep('report')
@@ -150,7 +153,8 @@ function Flow() {
       {view === 'report' ? (
         <Report />
       ) : (
-        <AppChrome selectedPatient={selected}>
+        <AppChrome selectedPatient={selected} onOpenProfile={openProfile}>
+          {view === 'profile' && <Profile />}
           {view === 'dashboard' && (
             <Dashboard
               sampleRowRef={sampleRowRef}
@@ -196,7 +200,9 @@ function Flow() {
 export default function Prototype() {
   return (
     <OnboardingProvider>
-      <Flow />
+      <ProjectionPrefsProvider>
+        <Flow />
+      </ProjectionPrefsProvider>
     </OnboardingProvider>
   )
 }

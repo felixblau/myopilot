@@ -1,5 +1,10 @@
-import { type RefObject } from 'react'
+import { useState, type RefObject } from 'react'
 import { samplePatient as p } from './sampleData'
+import {
+  SCENARIOS,
+  useProjectionPrefs,
+  type Eye,
+} from './ProjectionPrefsContext'
 
 interface PatientSummaryProps {
   generateRef: RefObject<HTMLButtonElement | null>
@@ -116,54 +121,8 @@ export default function PatientSummary({
             </p>
           </section>
 
-          {/* Progression chart */}
-          <section className="bg-white rounded-[10px] border border-[#e2e8f0] p-5 min-w-0">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-['Inter'] text-[16px] font-semibold text-[#191b1e]">
-                Progression and Projections
-              </h3>
-              <div className="flex items-center gap-3">
-                <span className="font-['Source_Sans_3'] text-[12px] text-[#71717a]">
-                  Today:
-                </span>
-                <span className="text-[12px] font-medium text-[#e53a36] bg-[#e53a36]/10 rounded-full px-3 py-1">
-                  75th percentile
-                </span>
-                <div className="flex rounded overflow-hidden border border-[#e2e8f0] text-[12px]">
-                  <span className="px-3 py-1 bg-[#2a4c7c] text-white">OD</span>
-                  <span className="px-3 py-1 bg-white text-[#4a5568]">OS</span>
-                </div>
-              </div>
-            </div>
-            <p className="text-center font-['Inter'] text-[13px] font-medium text-[#191b1e] mb-1">
-              Axial Length
-            </p>
-            <div className="relative h-[320px] overflow-hidden rounded">
-              <img src="/report-assets/grad-map.svg" alt="" className="absolute inset-0 w-full h-full" />
-              <img src="/report-assets/v-grid.svg" alt="" className="absolute inset-0 w-full h-full" />
-              <div className="absolute left-[47%] top-0 bottom-0 w-4">
-                <img src="/report-assets/treatment-period.svg" alt="" className="w-full h-full" />
-              </div>
-              <img
-                src="/report-assets/all-lines.svg"
-                alt=""
-                className="absolute w-full bottom-0"
-                style={{ height: '70%' }}
-              />
-              <span className="absolute left-[44%] bottom-2 text-[11px] text-[#71717a] opacity-70">
-                Today (12.5yrs)
-              </span>
-            </div>
-            <div className="flex justify-between px-4 mt-1 text-[11px] text-[#71717a]">
-              <span>6</span><span>10</span><span>15</span><span>20</span><span>25</span>
-            </div>
-            <p className="text-center text-[11px] text-[#71717a] mt-1">Age (Years)</p>
-            <div className="grid grid-cols-3 gap-3 mt-4 text-[11px] text-[#71717a]">
-              <div><span className="text-[#8b1a1a]">┈</span> Projection 1: No intervention</div>
-              <div><span className="text-[#d946ef]">┈</span> Projection 2: Treatment 1 name</div>
-              <div><span className="text-[#3b82f6]">┈</span> Projection 3: Treatment 2 name</div>
-            </div>
-          </section>
+          {/* Progression chart — driven by saved projection preferences */}
+          <ProjectionChart patientId={p.patientId} />
         </div>
       </div>
     </div>
@@ -196,5 +155,144 @@ function Gauge({
         <span>{rightLabel}</span>
       </div>
     </div>
+  )
+}
+
+// Progression + projections chart. Lines auto-appear from the doctor's saved
+// projection preferences; individual lines can be hidden per patient (remembered
+// across visits). "Set as my default" writes the current view back to the
+// account preference.
+function ProjectionChart({ patientId }: { patientId: string }) {
+  const { prefs, setPrefs, hiddenFor, toggleHidden } = useProjectionPrefs()
+  const [eye, setEye] = useState<Eye>(prefs.eye)
+  const [shown, setShown] = useState(prefs.autoShow)
+  const [savedFlash, setSavedFlash] = useState(false)
+
+  const hidden = hiddenFor(patientId)
+  // The scenarios the doctor prefers, in canonical order.
+  const chosen = SCENARIOS.filter((s) => prefs.scenarios.includes(s.key))
+  const anyVisible = chosen.some((s) => !hidden.includes(s.key))
+
+  const setAsDefault = () => {
+    // Persist the currently-visible scenarios + eye as the new account default.
+    const visible = chosen
+      .filter((s) => !hidden.includes(s.key))
+      .map((s) => s.key)
+    setPrefs({ ...prefs, eye, scenarios: visible.length ? visible : prefs.scenarios })
+    setSavedFlash(true)
+    setTimeout(() => setSavedFlash(false), 1800)
+  }
+
+  return (
+    <section className="bg-white rounded-[10px] border border-[#e2e8f0] p-5 min-w-0">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="font-['Inter'] text-[16px] font-semibold text-[#191b1e]">
+          Progression and Projections
+        </h3>
+        <div className="flex items-center gap-3">
+          <span className="font-['Source_Sans_3'] text-[12px] text-[#71717a]">
+            Today:
+          </span>
+          <span className="text-[12px] font-medium text-[#e53a36] bg-[#e53a36]/10 rounded-full px-3 py-1">
+            75th percentile
+          </span>
+          <div className="flex rounded overflow-hidden border border-[#e2e8f0] text-[12px]">
+            {(['OD', 'OS'] as Eye[]).map((e) => (
+              <button
+                key={e}
+                onClick={() => setEye(e)}
+                className={`px-3 py-1 transition-colors ${
+                  eye === e ? 'bg-[#2a4c7c] text-white' : 'bg-white text-[#4a5568]'
+                }`}
+              >
+                {e}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <p className="text-center font-['Inter'] text-[13px] font-medium text-[#191b1e] mb-1">
+        Axial Length
+      </p>
+
+      {shown ? (
+        <>
+          <div className="relative h-[320px] overflow-hidden rounded">
+            <img src="/report-assets/grad-map.svg" alt="" className="absolute inset-0 w-full h-full" />
+            <img src="/report-assets/v-grid.svg" alt="" className="absolute inset-0 w-full h-full" />
+            <div className="absolute left-[47%] top-0 bottom-0 w-4">
+              <img src="/report-assets/treatment-period.svg" alt="" className="w-full h-full" />
+            </div>
+            {anyVisible && (
+              <img
+                src="/report-assets/all-lines.svg"
+                alt=""
+                className="absolute w-full bottom-0"
+                style={{ height: '70%' }}
+              />
+            )}
+            <span className="absolute left-[44%] bottom-2 text-[11px] text-[#71717a] opacity-70">
+              Today (12.5yrs)
+            </span>
+            <span className="absolute right-3 top-2 text-[11px] text-[#71717a]">
+              Projected to age {prefs.targetAge}
+            </span>
+          </div>
+          <div className="flex justify-between px-4 mt-1 text-[11px] text-[#71717a]">
+            <span>6</span><span>10</span><span>15</span><span>20</span><span>25</span>
+          </div>
+          <p className="text-center text-[11px] text-[#71717a] mt-1">Age (Years)</p>
+
+          {/* Interactive legend — click to hide/show a line for this patient */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4">
+            {chosen.map((s) => {
+              const off = hidden.includes(s.key)
+              return (
+                <button
+                  key={s.key}
+                  onClick={() => toggleHidden(patientId, s.key)}
+                  title={off ? 'Show this line' : 'Hide this line'}
+                  className={`flex items-center gap-1.5 text-[11px] font-['Source_Sans_3'] transition-opacity ${
+                    off ? 'opacity-40 line-through' : 'opacity-100'
+                  }`}
+                >
+                  <span
+                    className="inline-block w-4 h-0 border-t-2 border-dashed"
+                    style={{ borderColor: s.color }}
+                  />
+                  {s.label}
+                </button>
+              )
+            })}
+            <span className="text-[11px] text-[#a0aec0]">· click a line to hide</span>
+          </div>
+
+          <div className="flex items-center gap-3 mt-3 pt-3 border-t border-[#edf1f7]">
+            <button
+              onClick={setAsDefault}
+              className="text-[12px] font-['Inter'] font-medium text-[#2a4c7c] hover:underline"
+            >
+              ⚙ Set as my default
+            </button>
+            {savedFlash && (
+              <span className="text-[12px] text-[#16a34a]">✓ Saved as default</span>
+            )}
+          </div>
+        </>
+      ) : (
+        <div className="h-[320px] flex flex-col items-center justify-center gap-3 rounded border border-dashed border-[#e2e8f0] bg-[#f7f8fc]">
+          <p className="font-['Source_Sans_3'] text-[13px] text-[#71717a]">
+            Projections are hidden.
+          </p>
+          <button
+            onClick={() => setShown(true)}
+            className="h-9 px-4 rounded-[6px] bg-[#2a4c7c] text-white font-['Inter'] text-[13px] font-medium hover:opacity-90"
+          >
+            Show projections
+          </button>
+        </div>
+      )}
+    </section>
   )
 }
